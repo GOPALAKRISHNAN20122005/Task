@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: url("https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1920&q=80")
+        no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 60px;
+      margin: 0;
+      height: 100vh;
+    }
+
+    /* Transparent glass container */
+    .container {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 25px 30px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      width: 380px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 15px;
+      margin: 5px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      width: 100%;
+      box-sizing: border-box;
+      outline: none;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+    }
+
+    button {
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0056b3, #0096ff);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    li {
+      background: rgba(255, 255, 255, 0.6);
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 4px solid #007bff;
+      transition: 0.3s;
+    }
+
+    li:hover {
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+      border-left-color: green;
+      background: rgba(200, 255, 200, 0.5);
+    }
+
+    .actions button {
+      margin-left: 5px;
+      font-size: 13px;
+      padding: 5px 8px;
+    }
+
+    .msg {
+      text-align: center;
+      color: #00ff80;
+      display: none;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0,255,128,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🌟 Task Manager 🌟</h1>
+    <input type="text" id="taskInput" placeholder="Enter your task..." />
+    <input type="date" id="taskDate" />
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+
+    <div class="msg" id="msg">✅ Task Completed!</div>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const taskDate = document.getElementById("taskDate");
+    const taskList = document.getElementById("taskList");
+    const msg = document.getElementById("msg");
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      const date = taskDate.value;
+
+      if (!text || !date) {
+        alert("Please enter both task and date!");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div>
+          <strong>${text}</strong><br>
+          <small>Due: ${date}</small>
+        </div>
+        <div class="actions">
+          <button onclick="completeTask(this)">Done</button>
+          <button onclick="deleteTask(this)">Delete</button>
+        </div>
+      `;
+
+      taskList.appendChild(li);
+      taskInput.value = "";
+      taskDate.value = "";
+    }
+
+    function completeTask(btn) {
+      const li = btn.closest("li");
+      li.classList.toggle("completed");
+
+      msg.style.display = "block";
+      setTimeout(() => (msg.style.display = "none"), 1500);
+    }
+
+    function deleteTask(btn) {
+      const li = btn.closest("li");
+      li.remove();
+    }
+  </script>
+</body>
+</html>
